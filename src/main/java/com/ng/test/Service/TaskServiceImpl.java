@@ -11,7 +11,7 @@ import com.ng.test.Repository.TaskRepository;
 public class TaskServiceImpl implements TaskService{
 
 	@Autowired
-	private TaskRepository taskRepository;
+	private TaskRepository taskRepository;  //Bean for Repository
 	
 	@Override
 	public Task createTask(Task task) {  //Adding Task
@@ -24,9 +24,30 @@ public class TaskServiceImpl implements TaskService{
 	}
 
 	@Override
-	public void deleteTask(String id) {
+	public void deleteTask(String id) { //delete task
 		taskRepository.deleteById(id);
 		
 	}
+
+	@Override
+	public Task updateTask(String id, Task task) { //update task
+Task prev = taskRepository.findById(id).orElse(null);
+		
+		if(prev != null) {
+			prev.setTitle(task.getTitle());
+			prev.setDescription(task.getDescription());
+			prev.setCompleted(task.isCompleted());
+			
+			return taskRepository.save(prev);
+		}
+		return null;
+	}
+
+	@Override
+	public Task getTaskById(String id) {
+		
+		return taskRepository.findById(id).orElse(null);
+	}
+	
 
 }
