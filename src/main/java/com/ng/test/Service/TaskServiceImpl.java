@@ -32,11 +32,13 @@ public class TaskServiceImpl implements TaskService{
 	@Override
 	public Task updateTask(String id, Task task) { //update task
 Task prev = taskRepository.findById(id).orElse(null);
-		
+	
 		if(prev != null) {
-			prev.setTitle(task.getTitle());
+			prev.setAssignTo(task.getAssignTo());;
 			prev.setDescription(task.getDescription());
-			prev.setCompleted(task.isCompleted());
+			prev.setDueDate(task.getDueDate());
+			prev.setPriority(task.getPriority());
+			prev.setStatus(task.getStatus());
 			
 			return taskRepository.save(prev);
 		}
@@ -48,6 +50,11 @@ Task prev = taskRepository.findById(id).orElse(null);
 		
 		return taskRepository.findById(id).orElse(null);
 	}
+
+	@Override
+    public List<Task> searchTasks(String keyword) {
+        return taskRepository.searchTasks(keyword);
+    }
 	
 
 }
