@@ -1,8 +1,11 @@
 package com.ng.test.Controller;
 
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -35,10 +38,11 @@ public class TaskController {
 	}
 	
 	
-	@GetMapping("/tasks")
-	public List<Task> getAllTasks() {
-		return taskService.getAllTasks();
-	}
+	 @GetMapping("/tasks")
+	    public Page<Task> getPaginatedTasks(@RequestParam(defaultValue = "0") int page,
+	                                        @RequestParam(defaultValue = "5") int size) {
+	        return taskService.getAllTasks(PageRequest.of(page, size));
+	    }
 	
 	@DeleteMapping("/task/{id}")
 	public void deleteTask(@PathVariable String id)
@@ -68,5 +72,6 @@ public class TaskController {
 	    public List<Task> searchTasks(@RequestParam String keyword) {
 	        return taskService.searchTasks(keyword);
 	    }
+	 
 	
 }

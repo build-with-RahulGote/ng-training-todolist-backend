@@ -1,8 +1,12 @@
 package com.ng.test.Service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Service;
 
 import com.ng.test.Model.Task;
@@ -54,7 +58,16 @@ Task prev = taskRepository.findById(id).orElse(null);
 	@Override
     public List<Task> searchTasks(String keyword) {
         return taskRepository.searchTasks(keyword);
-    }
+	}
+
+	@Override
+	public Page<Task> getAllTasks(Pageable pageable) {
+		
+		return taskRepository.findAll(pageable);
+	}
+
+	
+
 	
 
 }
